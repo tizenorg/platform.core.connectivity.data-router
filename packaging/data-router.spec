@@ -1,6 +1,6 @@
 Name:       data-router
 Summary:    Data Router
-Version:    0.2.13
+Version:    0.2.14
 Release:    0
 Group:      TO_BE/FILLED_IN
 License:    TO BE FILLED IN
@@ -29,7 +29,7 @@ rm -rf %{buildroot}
 
 
 %post
-/usr/bin/vconftool set -t int memory/data_router/osp_serial_open "0" -i
+/usr/bin/vconftool set -t int memory/data_router/osp_serial_open "0" -u 0 -i -f
 %postun
 
 

@@ -1,3 +1,11 @@
+data-router (0.2.14) unstable; urgency=low
+
+  * Upload the package
+  * Git: slp/pkgs/d/data-router
+  * Tag: data-router_0.2.14
+
+ -- InJun Yang <injun.yang@samsung.com>  Sat, 08 Sep 2012 00:10:56 +0900
+
 data-router (0.2.13) unstable; urgency=low
 
   * Remove libdata-router package

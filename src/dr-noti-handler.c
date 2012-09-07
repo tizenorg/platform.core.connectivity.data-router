@@ -46,14 +46,13 @@ static void __usb_noti_handler(void *data)
 	int usb_state = -1;
 	int usb_mode = -1;
 	int ret;
-	int mobileap_mode;
 
 	if (_get_usb_state(&usb_state) < 0) {
 		ERR(" Unable to get usb status !\n");
 		return;
 	}
 
-	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_SEL_MODE_INT, &usb_mode);
+	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_MODE_INT, &usb_mode);
 	if (ret != 0) {
 		DBG("Vconf get failed\n");
 		return;
@@ -62,16 +61,6 @@ static void __usb_noti_handler(void *data)
 	DBG("USB noti handler, USB state : %d, Mode : %d\n", usb_state, usb_mode);
 	DBG("usb_fd = 0x%x\n", dr_info.usb.usb_fd);
 
-	ret = vconf_get_int(VCONFKEY_MOBILE_HOTSPOT_MODE, &mobileap_mode);
-	if (ret != 0) {
-		DBG("Vconf get failed\n");
-		return;
-	}
-
-	if (mobileap_mode & VCONFKEY_MOBILE_HOTSPOT_MODE_USB) {
-		DBG("MobileAP_USB enabled. Do not initialize USB\n");
-		return;
-	}
 
 	/*
 	 * If USB driver builted in the Kernel, VCONFKEY_SYSMAN_USB_CONNECTED is not used.
@@ -95,7 +84,7 @@ static void __usb_mode_noti_handler(void *data)
 	int usb_mode = -1;
 	int ret;
 
-	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_SEL_MODE_INT, &usb_mode);
+	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_MODE_INT, &usb_mode);
 	if (ret != 0) {
 		DBG("Vconf get failed\n");
 		return;
@@ -135,10 +124,10 @@ gboolean _register_vconf_notification(void)
 	}
 
 	ret =
-	    vconf_notify_key_changed(VCONFKEY_SETAPPL_USB_SEL_MODE_INT,
+	    vconf_notify_key_changed(VCONFKEY_SETAPPL_USB_MODE_INT,
 				     (vconf_callback_fn) __usb_mode_noti_handler, NULL);
 	if (ret < 0) {
-		ERR("Error !!! VCONFKEY reg noti  : %s\n", VCONFKEY_SETAPPL_USB_SEL_MODE_INT);
+		ERR("Error !!! VCONFKEY reg noti  : %s\n", VCONFKEY_SETAPPL_USB_MODE_INT);
 	}
 
 	return TRUE;
@@ -147,7 +136,7 @@ gboolean _register_vconf_notification(void)
 void _unregister_vconf_notification(void)
 {
 	vconf_ignore_key_changed(VCONFKEY_SYSMAN_USB_STATUS, (vconf_callback_fn) __usb_noti_handler);
-	vconf_ignore_key_changed(VCONFKEY_SETAPPL_USB_SEL_MODE_INT, (vconf_callback_fn) __usb_mode_noti_handler);
+	vconf_ignore_key_changed(VCONFKEY_SETAPPL_USB_MODE_INT, (vconf_callback_fn) __usb_mode_noti_handler);
 	return;
 }
 
