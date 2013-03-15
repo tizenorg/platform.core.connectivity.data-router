@@ -3,7 +3,7 @@ Summary:    Data Router
 Version:    0.2.17
 Release:    1
 Group:      TO_BE/FILLED_IN
-License:    Apache License Version 2.0
+License:    TO BE FILLED IN
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires: cmake
 BuildRequires: pkgconfig(dlog)
