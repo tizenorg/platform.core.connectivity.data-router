@@ -2,8 +2,8 @@ Name:       data-router
 Summary:    Data Router
 Version:    0.2.17
 Release:    1
-Group:      TO_BE/FILLED_IN
-License:    TO BE FILLED IN
+Group:      Connectivity/Service
+License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires: cmake
 BuildRequires: pkgconfig(dlog)
@@ -20,20 +20,19 @@ For USB serial communication, reads/writes usb node and routes them to Socket cl
 %setup -q
 
 %build
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+%cmake . 
 make %{?jobs:-j%jobs}
 
 %install
-rm -rf %{buildroot}
 %make_install
 
 
 %post
 /usr/bin/vconftool set -t int memory/data_router/osp_serial_open "0" -u 0 -i -f
-%postun
 
 
 %files
 %manifest data-router.manifest
 %defattr(-, root, root)
+%license LICENSE
 /usr/bin/data-router
