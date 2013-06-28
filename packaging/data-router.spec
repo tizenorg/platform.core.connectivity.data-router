@@ -5,6 +5,7 @@ Release:    1
 Group:      Connectivity/Service
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
+Source1001: 	data-router.manifest
 BuildRequires: cmake
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(dbus-glib-1)
@@ -18,6 +19,7 @@ For USB serial communication, reads/writes usb node and routes them to Socket cl
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 %cmake . 
@@ -32,7 +34,7 @@ make %{?jobs:-j%jobs}
 
 
 %files
-%manifest data-router.manifest
+%manifest %{name}.manifest
 %defattr(-, root, root)
 %license LICENSE
 /usr/bin/data-router
