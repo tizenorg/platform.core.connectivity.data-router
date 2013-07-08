@@ -1,0 +1,8 @@
+Change-Id: I87f0698e4722cbb75b3c9c3b7323551d9bcb2af1
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 10:07:01 -0700
+Reviewed-on: https://review.tizen.org/gerrit/4520
+Project: platform/core/connectivity/data-router
+Branch: refs/heads/tizen
