@@ -10,7 +10,6 @@ BuildRequires: cmake
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(dbus-glib-1)
 BuildRequires: pkgconfig(vconf)
-BuildRequires: pkgconfig(tapi)
 Requires(post): /usr/bin/vconftool
 
 %description
@@ -22,7 +21,7 @@ For USB serial communication, reads/writes usb node and routes them to Socket cl
 cp %{SOURCE1001} .
 
 %build
-%cmake . 
+%cmake .
 make %{?jobs:-j%jobs}
 
 %install
