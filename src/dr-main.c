@@ -95,13 +95,15 @@ int main(int argc, char *argv[])
 {
 	DBG("+\n");
 
+#if !GLIB_CHECK_VERSION (2, 35, 0)
 	g_type_init();
+#endif
 	_init_dbus_signal();
 
-
+#if !GLIB_CHECK_VERSION(2, 31, 0)
 	if (!g_thread_supported())
 		g_thread_init(NULL);
-
+#endif
 	dbus_g_thread_init();
 
 	_register_vconf_notification();

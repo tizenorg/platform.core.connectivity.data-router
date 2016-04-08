@@ -27,5 +27,5 @@
 
 #include "dr-main.h"
 
-
+int _send_dtr_ctrl_signal(int status);
 #endif				//_DR_DPRAM_H_

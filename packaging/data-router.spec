@@ -1,6 +1,6 @@
 Name:       data-router
 Summary:    Data Router
-Version:    0.2.17
+Version:    0.2.18
 Release:    1
 Group:      Connectivity/Service
 License:    Apache-2.0

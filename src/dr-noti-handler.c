@@ -74,7 +74,6 @@ static void __usb_status_noti_handler(void *data)
 
 static void __usb_mode_noti_handler(void *data)
 {
-	int usb_state = -1;
 	int usb_mode = -1;
 	int ret;
 
