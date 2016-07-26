@@ -36,6 +36,18 @@
 extern dr_info_t dr_info;
 volatile gboolean dsr_status = FALSE;
 
+static gboolean acm_enabled(int mode)
+{
+	switch(mode) {
+	case SET_USB_DEFAULT:
+	case SET_USB_SDB:
+	case SET_USB_SDB_DIAG:
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
 static void __usb_status_noti_handler(void *data)
 {
 	int usb_state = -1;
@@ -47,7 +59,7 @@ static void __usb_status_noti_handler(void *data)
 		return;
 	}
 
-	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_MODE_INT, &usb_mode);
+	ret = vconf_get_int(VCONFKEY_USB_CUR_MODE, &usb_mode);
 	if (ret != 0) {
 		DBG("Vconf get failed\n");
 		return;
@@ -63,7 +75,7 @@ static void __usb_status_noti_handler(void *data)
 	 * After usb driver loaded, MTP will be set vconf value as VCONFKEY_SYSMAN_USB_CONNECTED
 	 */
 	if (usb_state != VCONFKEY_SYSMAN_USB_DISCONNECTED &&
-		usb_mode == SETTING_USB_DEFAULT_MODE) {
+			acm_enabled(usb_mode)) {
 		_init_usb();
 	} else if (usb_state == VCONFKEY_SYSMAN_USB_DISCONNECTED) {
 		_deinit_usb();
@@ -77,7 +89,7 @@ static void __usb_mode_noti_handler(void *data)
 	int usb_mode = -1;
 	int ret;
 
-	ret = vconf_get_int(VCONFKEY_SETAPPL_USB_MODE_INT, &usb_mode);
+	ret = vconf_get_int(VCONFKEY_USB_CUR_MODE, &usb_mode);
 	if (ret != 0) {
 		DBG("Vconf get failed\n");
 		return;
@@ -86,7 +98,7 @@ static void __usb_mode_noti_handler(void *data)
 	DBG("USB Mode noti handler, USB  Mode : %d\n", usb_mode);
 	DBG("usb_fd = 0x%x\n", dr_info.usb.usb_fd);
 
-	if (usb_mode != SETTING_USB_DEFAULT_MODE) {
+	if (!acm_enabled(usb_mode)) {
 		_deinit_usb();
 		_deinit_dr();
 	}
@@ -106,10 +118,10 @@ gboolean _register_vconf_notification(void)
 	}
 
 	ret =
-	    vconf_notify_key_changed(VCONFKEY_SETAPPL_USB_MODE_INT,
+	    vconf_notify_key_changed(VCONFKEY_USB_CUR_MODE,
 				     (vconf_callback_fn) __usb_mode_noti_handler, NULL);
 	if (ret < 0) {
-		ERR("Error !!! VCONFKEY reg noti  : %s\n", VCONFKEY_SETAPPL_USB_MODE_INT);
+		ERR("Error !!! VCONFKEY reg noti  : %s\n", VCONFKEY_USB_CUR_MODE);
 	}
 
 	return TRUE;
@@ -118,7 +130,7 @@ gboolean _register_vconf_notification(void)
 void _unregister_vconf_notification(void)
 {
 	vconf_ignore_key_changed(VCONFKEY_SYSMAN_USB_STATUS, (vconf_callback_fn) __usb_status_noti_handler);
-	vconf_ignore_key_changed(VCONFKEY_SETAPPL_USB_MODE_INT, (vconf_callback_fn) __usb_mode_noti_handler);
+	vconf_ignore_key_changed(VCONFKEY_USB_CUR_MODE, (vconf_callback_fn) __usb_mode_noti_handler);
 	return;
 }
 
